@@ -1,30 +1,29 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Card, Image, Button } from "semantic-ui-react";
-import { IActivity } from "../../../app/models/activity";
-interface IProps {
-  activity: IActivity;
-  setEditMode: (editMode: boolean) => void;
-  setSelectedActivity: (activity: IActivity | null) => void;
-}
-export const ActivityDetails: React.FC<IProps> = ({
-  activity,
-  setEditMode,
-  setSelectedActivity,
-}) => {
+import { activityContext } from "../../../app/store/activityStore";
+import { observer } from "mobx-react-lite";
+
+const ActivityDetails: React.FC = () => {
+  const activityStore = useContext(activityContext);
+  const {
+    selectedActivity: activity,
+    openEditForm,
+    cancelSelectedActivity,
+  } = activityStore;
   return (
     <>
       <Card fluid>
         <Image
-          src={`/assets/images/categoryImages/${activity.category}.jpg`}
+          src={`/assets/images/categoryImages/${activity!.category}.jpg`}
           wrapped
           ui={false}
         />
         <Card.Content>
-          <Card.Header>{activity.title}</Card.Header>
+          <Card.Header>{activity!.title}</Card.Header>
           <Card.Meta>
-            <span>{activity.date}</span>
+            <span>{activity!.date}</span>
           </Card.Meta>
-          <Card.Description>{activity.description}</Card.Description>
+          <Card.Description>{activity!.description}</Card.Description>
         </Card.Content>
         <Card.Content extra>
           <Button.Group widths={2}>
@@ -32,10 +31,10 @@ export const ActivityDetails: React.FC<IProps> = ({
               basic
               color="blue"
               content="edit"
-              onClick={() => setEditMode(true)}
+              onClick={() => openEditForm(activity!.id)}
             ></Button>
             <Button
-              onClick={() => setSelectedActivity(null)}
+              onClick={cancelSelectedActivity}
               basic
               color="grey"
               content="cancel"
@@ -46,3 +45,4 @@ export const ActivityDetails: React.FC<IProps> = ({
     </>
   );
 };
+export default observer(ActivityDetails);
