@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Per;
 using MediatR;
 using App.Activities;
+using FluentValidation.AspNetCore;
+using API.Middleware;
 
 namespace API
 {
@@ -36,12 +38,17 @@ namespace API
                 });
             });
             services.AddMediatR(typeof(List.Handler).Assembly);
-            services.AddControllers();
+            services.AddControllers()
+            .AddFluentValidation(cfg =>
+            {
+                cfg.RegisterValidatorsFromAssemblyContaining<Create>();
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseMiddleware<ErrorHandlingMiddleware>();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -50,8 +57,6 @@ namespace API
             // app.UseHttpsRedirection();
 
             app.UseCors("CorsPolicy");
-
-
 
             app.UseRouting();
 
