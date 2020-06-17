@@ -21,6 +21,8 @@
     "experimentalDecorators": true
   },
   "include": [
-    "src"
+    "src",
+    "./typings-custom/react-widgets-date-fns.d.ts",
+    "./typings-custom/react-widgets-globalize.d.ts"
   ]
 }
