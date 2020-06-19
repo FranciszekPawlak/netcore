@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using App.User;
-using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

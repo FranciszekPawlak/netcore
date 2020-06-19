@@ -4,7 +4,7 @@ import { ActivityFormValues } from "../../../app/models/activity";
 import { v4 as uuid } from "uuid";
 import { observer } from "mobx-react-lite";
 import { RouteComponentProps } from "react-router-dom";
-import { activityContext } from "../../../app/store/activityStore";
+import { RootStoreContext } from "../../../app/store/rootStore";
 import { Form as FinalForm, Field } from "react-final-form";
 import TextInput from "../../../app/common/form/TextInput";
 import TextAreaInput from "../../../app/common/form/TextAreaInput";
@@ -42,7 +42,8 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
   match,
   history,
 }) => {
-  const activityStore = useContext(activityContext);
+  const rootStore = useContext(RootStoreContext);
+  const { activityStore } = rootStore;
   const {
     submitting,
     createActivity,
